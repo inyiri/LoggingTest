@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<appender name="APPLOGFILE" class="org.apache.log4j.RollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/workshop.log" />
+  <param name="Append" value="true" />
+  <param name="MaxFileSize" value="3000KB" />
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1}: %m%n" />
+  </layout>
+</appender>
+
+<!-- The master system log file. This should track every system log statement
+and is intended for debugging purposes -->
+<appender name="SYSLOGFILE" class="org.apache.log4j.RollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/workshop_debug.log" />
+  <param name="Append" value="true" />
+  <param name="MaxFileSize" value="500000KB" />
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n" />
+  </layout>
+</appender>
+
+<!-- Because the master log file gets unwieldy, we also log all ERRORs to
+a separate file (in addition to the master). -->
+<appender name="SYSERRORLOGFILE" class="org.apache.log4j.RollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/workshop_errors.log" />
+  <param name="Append" value="true" />
+  <param name="MaxFileSize" value="5000KB" />
+  <param name="Threshold" value="error" />
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n" />
+  </layout>
+</appender>
+
+<!-- -->
+<!-- Declare the SMTPAppender -->
+<!-- -->
+
+
+<appender name="EMAIL" class="org.apache.log4j.net.SMTPAppender">
+  <param name="BufferSize" value="512"/>
+  <param name="SMTPHost" value="localhost"/>
+  <param name="From" value="qa_fcbc_domain-FCBC_Interfaces@eai.mol.hu"/>
+  <param name="To" value="eai-error@eai.mol.hu"/>
+  <param name="Subject" value="[SMTPAppender] qa_fcbc_domain Application message"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="[%d{ISO8601}]%n%n%-5p%n%n%c%n%n%m%n%n"/>
+  </layout>
+<filter class="org.apache.log4j.varia.LevelRangeFilter">
+  <param name="LevelMin" value="ERROR"/>
+  <param name="LevelMax" value="FATAL"/>
+</filter>
+</appender>
+
+
+<appender name="SapAdapterServer" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/SapAdapter/server/SapAdapterServer_FCBC_Interfaces.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+
+<appender name="SapAdapterClient" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/SapAdapter/client/SapAdapterClient_FCBC_Interfaces.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+
+
+<!-- RDBMS POLLER -->
+
+<appender name="RDBMSPoller" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/home/eaicdci/NetBeansProjects/LoggingTest/doc/RDBMSPoller_FCBC_Interfaces.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+
+<!-- RDBMS POLLER -->
+
+<appender name="IDocSenderMOP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderMOP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.mop" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderMOP"/>
+
+</logger>
+
+<appender name="IDocSenderMJP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderMJP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.mjp" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderMJP"/>
+
+</logger>
+
+<appender name="IDocSenderMUP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderMUP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.mup" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderMUP"/>
+
+</logger>
+
+<appender name="IDocSenderMTP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderMTP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.mtp" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderMTP"/>
+
+</logger>
+
+<appender name="IDocSenderHR" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderHR.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.hr" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderHR"/>
+
+</logger>
+
+<appender name="IDocSenderMDP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderMDP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.mdp" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderMDP"/>
+
+</logger>
+
+<appender name="IDocSenderGSP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderGSP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.gsp" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderGSP"/>
+
+</logger>
+
+<appender name="IDocSenderGCP" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderGCP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.gcp" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="IDocSenderGCP"/>
+
+</logger>
+
+<appender name="IDocSenderPE2" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderPE2.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hr.ina.eai.idocsender.pe2" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="IDocSenderPE2"/>
+
+</logger>
+
+<appender name="IDocSenderEXPLANT_EAI" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderEXPLANT_EAI.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.idocsender.sap.IDocSenderExplant" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="IDocSenderEXPLANT_EAI"/>
+
+</logger>
+
+<appender name="IDocSenderEXPLANT" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderEXPLANT.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hr.ina.eai.idocsender.explant" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="IDocSenderEXPLANT"/>
+
+</logger>
+
+<appender name="IDocSenderGop" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderGOP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+
+<logger name="molgrp.eai.idocsender.gop" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderGop"/>
+</logger>
+
+<appender name="IDocSenderGhp" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/IDocSender/FCBC_IDocSenderGHP.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+
+<logger name="molgrp.eai.idocsender.ghp" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="IDocSenderGhp"/>
+</logger>
+
+
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<!-- vege of ajdokszender -->
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+
+<!-- COMMON Applications -->
+
+
+
+<!-- -->
+<!-- Applications -->
+<!-- -->
+
+<appender name="GI_MOLRS_SEF_ONLINEINVOICE_APPENDER" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/GI_MOLRS_SEF_ONLINEINVOICE/GI_MOLRS_SEF_ONLINEINVOICE.log"/>
+    <param name="Append" value="true"/>
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t]: %m%n"/>
+    </layout>
+</appender>
+
+<logger name="MOLGRP.EAI.TAXAUTH.MOLRS.KALA_SEF_ONLINEINVOICES" additivity="false">
+    <level value="debug"/>
+    <appender-ref ref="GI_MOLRS_SEF_ONLINEINVOICE_APPENDER"/>
+</logger>
+<logger name="molgrp.eai.gi_molrs_sef_onlineinvoice" additivity="false">
+    <level value="debug"/>
+    <appender-ref ref="GI_MOLRS_SEF_ONLINEINVOICE_APPENDER"/>
+</logger>
+
+<appender name="INT_RETAIL_DYNCREDIT_EJB" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_DYNCREDIT_EJB/INT_RETAIL_DYNCREDIT_EJB.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_retail_dyncredit" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_DYNCREDIT_EJB"/>
+<!--  <appender-ref ref="CONSOLE"/>-->
+</logger>
+
+<appender name="INT_RETAIL_DYNCREDIT_RDBMS" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_DYNCREDIT_EJB/INT_RETAIL_DYNCREDIT_RDBMS.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.rdbms.int_retail_dyncredit" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_DYNCREDIT_RDBMS"/>
+<!--  <appender-ref ref="CONSOLE"/>-->
+</logger>
+
+<appender name="INT_VATREFUND" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_VATREFUND/INT_VATREFUND.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.vatrefund" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_VATREFUND"/>
+<!--  <appender-ref ref="CONSOLE"/>-->
+</logger>
+
+<appender name="INT_ARKSYS_MOP_TRANSACTIONS" class="org.apache.log4j.RollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_ARKSYS_MOP_TRANSACTIONS/INT_ARKSYS_MOP_TRANSACTIONS.log"/>
+  <param name="Append" value="true"/>
+  <param name="MaxFileSize" value="35MB" />
+  <param name="MaxBackupIndex" value="9"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+  </layout>
+</appender>
+<logger name="HU.MOL.EAI.SAP_ARKSYS_TRXANSWERS" additivity="false">
+  <level value="debug"/>
+
+  <appender-ref ref="INT_ARKSYS_MOP_TRANSACTIONS"/>
+</logger>
+
+<!-- LIMO -->
+<appender name="INT_LIMO" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO/INT_LIMO.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.carsharing" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_LIMO"/>
+</logger>
+
+       <!-- Logger configuration for WHITELABEL interface -->
+       <appender name="INT_WHITELABEL_MCMS" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_WHITELABEL_MCMS/INT_WHITELABEL_MCMS.log"/>
+                <param name="Append" value="true"/>
+                <layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{DATE} %-5p: %m%n"/>
+                </layout>
+        </appender>
+
+        <logger name="hu.mol.eai.whitelabel" additivity="false">
+                <level value="debug"/>
+                <appender-ref ref="INT_WHITELABEL_MCMS"/>
+        </logger>
+
+   <!-- ************************ start: INT_GOOD_EMPMOBILINVOICE ************************ -->
+    <appender name="INT_GOOD_EMPMOBILINVOICE" class="org.apache.log4j.DailyRollingFileAppender">
+            <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_GOOD_EMPMOBILINVOICE/INT_GOOD_EMPMOBILINVOICE.log"/>
+            <param name="Append" value="true"/>
+            <layout class="org.apache.log4j.PatternLayout">
+                    <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+            </layout>
+    </appender>
+    <logger name="hu.mol.eai.hr.empmobilinvoice" additivity="false">
+            <level value="debug"/>
+            <appender-ref ref="INT_GOOD_EMPMOBILINVOICE"/> 
+    </logger>
+    <!-- ************************ end: INT_GOOD_EMPMOBILINVOICE ************************ -->
+
+<!-- CarSharing interface (MOL LiMo V2) -->
+<appender name="INT_LIMO_V2" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2"  additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2"/>
+</logger>
+
+
+<appender name="LIMO-REPORTING" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_REPORTING.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.limo-reporting"  additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="LIMO-REPORTING"/>
+</logger>
+
+<appender name="INT_LIMO_V2_WSLOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_WSLOG.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.wslog"  additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="INT_LIMO_V2_WSLOG"/>
+</logger>
+
+<appender name="INT_LIMO_V2_HIBERNATE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_HIBERNATE.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="org.hibernate"  additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_HIBERNATE"/>
+</logger>
+
+<appender name="INT_LIMO_V2_CARSHARINGB2BPPROCESSOR" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_CARSHARINGB2BPPROCESSOR.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.CarSharingB2BProcessor"  additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_CARSHARINGB2BPPROCESSOR"/>
+</logger>
+
+<appender name="INT_LIMO_V2_CARSHARINGB2CPROCESSOR" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_CARSHARINGB2CPROCESSOR.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.CarSharingB2CProcessor"  additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_CARSHARINGB2CPROCESSOR"/>
+
+</logger>
+
+<appender name="INT_LIMO_V2_VEHICLEEVENT" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_VEHICLEEVENT.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.VehicleEvent" additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_VEHICLEEVENT"/>
+</logger>
+
+<appender name="INT_LIMO_V2_PARKINGPROCESSOR" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_PARKINGPROCESSOR.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.ParkingProcessor" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="INT_LIMO_V2_PARKINGPROCESSOR"/>
+</logger>
+
+<appender name="INT_LIMO_V2_CLEANLINESSREPORTPROCESSOR" class="org.apache.log4j.DailyRollingFileAppender">
+                <param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_CLEANLINESSREPORTPROCESSOR.log"/>
+                <param name="Append" value="true"/>
+                <layout class="org.apache.log4j.PatternLayout">
+                                <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+                </layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.CleanlinessReportProcessor" additivity="false">
+                <level value="debug"/>
+                <appender-ref ref="INT_LIMO_V2_CLEANLINESSREPORTPROCESSOR"/>
+</logger>
+
+<appender name="INT_LIMO_V2_DEBTMANAGEMENTPPROCESSOR" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_DEBTMANAGEMENTPPROCESSOR.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.DebtManagementProcessor"  additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_DEBTMANAGEMENTPPROCESSOR"/>
+</logger>
+
+<appender name="INT_LIMO_V2_DEBTMANAGEMENTPPROCESSOR_TEST" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_DEBTMANAGEMENTPROCESSOR_TEST.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.DebtManagementProcessorTest" additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_DEBTMANAGEMENTPPROCESSOR_TEST"/>
+</logger>
+
+<appender name="INT_LIMO_V2_MAILCHIMPPROCESSOR" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_MAILCHIMPPROCESSOR.log"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_limo_v2.MailchimpProcessor" additivity="false">
+		<level value="info"/>
+		<appender-ref ref="INT_LIMO_V2_MAILCHIMPPROCESSOR"/>
+</logger>
+
+<appender name="INT_LIMO_V2_CARSHARINGB2CINVOICES" class="org.apache.log4j.RollingFileAppender">
+			<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_CARSHARINGB2CINVOICES.log"/>
+			<param name="Append" value="true"/>
+			<param name="MaxFileSize" value="50MB" />
+			<param name="MaxBackupIndex" value="30"/>
+			<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+			</layout>
+		</appender>
+
+		<logger name="hu.mol.eai.int_limo_v2.carSharingB2cInvoices"  additivity="false">
+			<level value="info"/>
+			<appender-ref ref="INT_LIMO_V2_CARSHARINGB2CINVOICES"/>
+		</logger>
+		
+		<appender name="INT_LIMO_V2_CARSHARINGSUBSCRIPTIONS" class="org.apache.log4j.RollingFileAppender">
+			<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_CARSHARINGSUBSCRIPTIONS.log"/>
+			<param name="Append" value="true"/>
+			<param name="MaxFileSize" value="50MB" />
+			<param name="MaxBackupIndex" value="30"/>
+			<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+			</layout>
+		</appender>
+
+		<logger name="hu.mol.eai.int_limo_v2.carSharingSubscriptons"  additivity="false">
+			<level value="info"/>
+			<appender-ref ref="INT_LIMO_V2_CARSHARINGSUBSCRIPTIONS"/>
+		</logger>
+		
+		<appender name="INT_LIMO_V2_VULOGTOKEN" class="org.apache.log4j.RollingFileAppender">
+			<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_VULOGTOKEN.log"/>
+			<param name="Append" value="true"/>
+			<param name="MaxFileSize" value="50MB" />
+			<param name="MaxBackupIndex" value="30"/>
+			<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+			</layout>
+		</appender>
+
+		<logger name="hu.mol.eai.int_limo_v2.VulogToken"  additivity="false">
+			<level value="info"/>
+			<appender-ref ref="INT_LIMO_V2_VULOGTOKEN"/>
+		</logger>
+		
+		<appender name="INT_LIMO_V2_PROMOCODE" class="org.apache.log4j.RollingFileAppender">
+			<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_PROMOCODE.log"/>
+			<param name="Append" value="true"/>
+			<param name="MaxFileSize" value="50MB" />
+			<param name="MaxBackupIndex" value="30"/>
+			<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+			</layout>
+		</appender>
+
+		<logger name="hu.mol.eai.int_limo_v2.PromoCodeProcessor"  additivity="false">
+			<level value="debug"/>
+			<appender-ref ref="INT_LIMO_V2_PROMOCODE"/>
+		</logger>
+
+	<appender name="INT_LIMO_V2_INVOICELOADER" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="//bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO_V2/INT_LIMO_V2_INVOICELOADER.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxFileSize" value="50MB" />
+		<param name="MaxBackupIndex" value="30"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+		</layout>
+	</appender>
+
+	<logger name="hu.mol.eai.int_limo_v2.invoiceLoadingLogger" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="INT_LIMO_V2_INVOICELOADER"/>
+	</logger>
+
+
+<!-- LIMO PARKING -->
+<appender name="INT_LIMO_PARKING" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_LIMO/INT_LIMO_PARKING.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} : %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.carsharing_parking" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_LIMO_PARKING"/>
+</logger>
+
+<!-- -->
+
+<appender name="INT_RETAIL_BALANCE2FCBC" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_BALANCE2FCBC/int_arksys2fcbc_balance.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.int_arksys2fcbc_balance" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_BALANCE2FCBC" />
+</logger>
+
+<appender name="INT_047_FCBC_CARD_TRANSACTIONS" class="org.apache.log4j.RollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_047_FCBC_CARD_TRANSACTIONS/INT_047_FCBC_CARD_TRANSACTIONS.log"/>
+  <param name="Append" value="true"/>
+  <param name="MaxFileSize" value="35MB"/>
+  <param name="MaxBackupIndex" value="10"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_047_fcbc_card_transactions" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_047_FCBC_CARD_TRANSACTIONS" />
+</logger>
+
+
+<appender name="INT_RETAIL_CARD_TRANSACTION_ROUTER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_CARD_TRANSACTION_ROUTER/int_retail_card_transaction_router.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_card_transaction_router" additivity="false">
+  <level value="info" />
+  <appender-ref ref="INT_RETAIL_CARD_TRANSACTION_ROUTER" />
+</logger>
+
+<appender name="INT_RETAIL_FCBC2SAP_ACCOUNTING" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_FCBC2SAP_ACCOUNTING/INT_RETAIL_FCBC2SAP_ACCOUNTING.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_retail_fcbc2sap_accounting" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_FCBC2SAP_ACCOUNTING" />
+</logger>
+
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs start: INT_RETAIL_FCBC2SUBSIDIARIES_ACCOUNTING log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<appender name="INT_RETAIL_FCBC2SUBSIDIARIES_ACCOUNTING" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_FCBC2SUBSIDIARIES_ACCOUNTING/int_retail_fcbc2subsidiaries_accounting.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_retail_fcbc2subsidiaries_accounting" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_FCBC2SUBSIDIARIES_ACCOUNTING" />
+</logger>
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs end: INT_RETAIL_FCBC2SUBSIDIARIES_ACCOUNTING log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+<appender name="INT_RETAIL_FCBCXML_ARKSYS" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_FCBCXML_ARKSYS/INT_RETAIL_FCBCXML_ARKSYS_10.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_fcbc_047_fcbc_xmlfilter" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_FCBCXML_ARKSYS" />
+</logger>
+
+<appender name="INT_RETAIL_ARKSYS_FCBCXML" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_RETAIL_FCBCXML_ARKSYS/INT_RETAIL_ARKSYS_FCBCXML_10.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_047_fcbc_xmlfilter" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="INT_RETAIL_ARKSYS_FCBCXML" />
+</logger>
+
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs start: INT_TROUT log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<appender name="INT_COTAS_TROUT_LOADING" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_TROUT/INT_COTAS_TROUT_LOADING.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_trout.INT_COTAS_TROUT_LOADING" additivity="false">
+  <level value="debug"/>
+<!--  <appender-ref ref="CONSOLE" />-->
+  <appender-ref ref="INT_COTAS_TROUT_LOADING" />
+</logger>
+
+<appender name="INT_FMS_TROUT_BREAKTIME" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_TROUT/INT_FMS_TROUT_BREAKTIME.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.int_trout.INT_FMS_TROUT_BREAKTIME" additivity="false">
+  <level value="debug"/>
+<!--  <appender-ref ref="CONSOLE" />-->
+  <appender-ref ref="INT_FMS_TROUT_BREAKTIME" />
+</logger>
+
+<appender name="INT_ARKSYS_TROUT_REFUELLING" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_TROUT/INT_ARKSYS_TROUT_REFUELLING.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.int_trout.INT_ARKSYS_TROUT_REFUELLING" additivity="false">
+  <level value="debug"/>
+<!--  <appender-ref ref="CONSOLE" />-->
+  <appender-ref ref="INT_ARKSYS_TROUT_REFUELLING" />
+</logger>
+
+<appender name="INT_FMS_TROUT_GPS_DETAILS" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_TROUT/INT_FMS_TROUT_GPS_DETAILS.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.int_trout.INT_FMS_TROUT_GPS_DETAILS" additivity="false">
+  <level value="debug"/>
+<!--  <appender-ref ref="CONSOLE" />-->
+  <appender-ref ref="INT_FMS_TROUT_GPS_DETAILS" />
+</logger>
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs end: INT_TROUT log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs start: RETAIL_MASTER_DATA_SYNC log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<appender name="RETAIL_MASTER_DATA_SYNC_WS_RECEIVER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/ws_receiver.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.receiver" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_WS_RECEIVER" />
+</logger>
+
+<appender name="RETAIL_MASTER_DATA_SYNC_ROUTER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/router.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.router" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_ROUTER" />
+</logger>
+
+<appender name="OLD_CUSTOMER_MASTER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/old_customer_master.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.oldcustomermaster" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="OLD_CUSTOMER_MASTER" />
+</logger>
+
+<appender name="RETAIL_MASTER_DATA_SYNC_SAP_RECEIVER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/sap_receiver.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.sapreceiver" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_SAP_RECEIVER" />
+</logger>
+
+<appender name="RETAIL_MASTER_DATA_SYNC_AS400ADAPTER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/as400adapter.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.adapters.as400" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_AS400ADAPTER" />
+</logger>
+
+<appender name="RETAIL_MASTER_DATA_SYNC_RDBMSPOLLER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/rdbmspoller.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.adapters.rdbmspoller" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_RDBMSPOLLER" />
+</logger>
+
+<appender name="RETAIL_MASTER_DATA_SYNC_COMMON" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/retail_master_data_sync_common.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.retailmasterdatasync.commons" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_COMMON" />
+</logger>
+
+<appender name="RETAIL_MASTER_DATA_SYNC_SENDER" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/RETAIL_MASTER_DATA_SYNC/retail_master_data_sync_sender.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+
+<logger name="hu.mol.eai.retailmasterdatasync.sender" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="RETAIL_MASTER_DATA_SYNC_SENDER" />
+</logger>
+
+
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs end: RETAIL_MASTER_DATA_SYNC log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+
+<appender name="JMS2JMSADAPTER" class="org.apache.log4j.RollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/JMS2JMSADAPTER/jms2jmsadapter.log" />
+  <param name="Append" value="true" />
+  <param name="MaxFileSize" value="45MB"/>
+  <param name="MaxBackupIndex" value="100"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n" />
+  </layout>
+</appender>
+
+<logger name="hu.mol.jms2jmsadapter" additivity="false">
+  <level value="debug" />
+  <appender-ref ref="JMS2JMSADAPTER" />
+</logger>
+
+<appender name="INT_AD_HR_001" class="org.apache.log4j.DailyRollingFileAppender">
+        	<param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/INT_AD_HR_001/INT_AD_HR_001.log"/>
+        	<param name="Append" value="true"/>
+        	<layout class="org.apache.log4j.PatternLayout">
+          	<param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+        	</layout>
+</appender>
+
+<logger name="hu.mol.eai.int_ad_hr_001" additivity="false">
+	<level value="info"/>
+	<appender-ref ref="INT_AD_HR_001"/>
+</logger>
+
+
+<appender name="BapiCaller" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/SapAdapter/client/BapiCaller_FCBC_Interfaces.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %-15c{1} [%t][%x]: %m%n"/>
+  </layout>
+</appender>
+
+
+<logger name="hu.mol.sap.BAPICallerSLBEAN" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="BapiCaller"/>
+</logger>
+
+
+<logger name="hu.mol.sap.bapi" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="BapiCaller"/>
+</logger>
+
+<logger name="sapadapter.server.bapiCaller" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="BapiCaller"/>
+</logger>
+
+
+<!-- SAJAT CATEGORY-k -->
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs "qa_fcbc_domain - FCBC_Interfaces" categories log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+
+<logger name="sapadapter.server.server" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="SapAdapterServer"/>
+<!--   <appender-ref ref="EMAIL"/> -->
+</logger>
+
+<logger name="sapadapter.server.client" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="SapAdapterClient"/>
+<!--  <appender-ref ref="EMAIL"/> -->
+</logger>
+
+
+
+<!-- RDBMS POLLER START -->
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+<logger name="hu.mol.eai.rdbmsPoller" additivity="false">
+  <level value="info"/>
+  <appender-ref ref="RDBMSPoller"/>
+<!-- appender-ref ref="EMAIL"/ -->
+</logger>
+
+<!-- RDBMS POLLER END -->
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+
+
+<!-- Applications -->
+
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs start: AS400DataQueueAdapter log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+<appender name="AS400DataQueueAdapter" class="org.apache.log4j.DailyRollingFileAppender">
+  <param name="File" value="/bealogs/EAILogs/qa_fcbc_domain/FCBC_Interfaces/AS400DataQueueAdapter/AS400DataQueueAdapter.log"/>
+  <param name="Append" value="true"/>
+  <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{DATE} %-5p %c: %m%n"/>
+  </layout>
+</appender>
+<logger name="hu.mol.eai.adapter.as400dataqueue.core" additivity="false">
+  <level value="debug"/>
+  <appender-ref ref="AS400DataQueueAdapter" />
+</logger>
+<!-- log4j-1.2.17.jar log4j_order_script.sh qa_certs end: AS400DataQueueAdapter log4j-1.2.17.jar log4j_order_script.sh qa_certs -->
+
+<!-- END of Applications -->
+
+
+
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+
+<logger name="WLW.REQUEST" additivity="false">
+  <level value="info" />
+  <appender-ref ref="APPLOGFILE" />
+</logger>
+
+<logger name="WLW.RESPONSE" additivity="false">
+  <level value="info" />
+  <appender-ref ref="APPLOGFILE" />
+</logger>
+
+<logger name="WLW.INVOKE" additivity="false">
+  <level value="warn" />
+  <appender-ref ref="APPLOGFILE" />
+</logger>
+
+<logger name="weblogic.net.jms" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+
+<logger name="weblogic.net.jndi" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+
+</logger>
+<logger name="weblogic.servlet" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+
+<logger name="weblogic.servlet.jsp" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+
+<logger name="com.bea.wlw.runtime.core" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wlw.runtime.jcs" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wlw.runtime.jcx" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wlw.runtime.jws" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wlw.runtime.xws" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O KNEX DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.bpm.compiler" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.bpm.runtime" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.management" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.security" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.security.authentication" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.security.authorization" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.security.encryption" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.init" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.store" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.control" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.broker" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.mbconnector.file" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.mbconnector.email" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.mbconnector.jms" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wli.mbconnector.timer" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.b2b.protocol" additivity="false">
+<!-- NOTE: DO NOT CHANGE THIS PRIORITY LEVEL W/O WLI DEV APPROVAL -->
+<!-- Debug-level log information is frequently the only tool available to diagnose failures! -->
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<!-- The wlw category is used for messages logged using the Logger API from JwsContext and ControlContext -->
+<logger name="wlw" additivity="false">
+  <level value="info" />
+  <appender-ref ref="APPLOGFILE" />
+</logger>
+<logger name="com.bea.wlw.runtime.core.dispatcher.HttpRequest" additivity="false">
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<logger name="com.bea.wlw.runtime.core.dispatcher.TypeUtils" additivity="false">
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+  <appender-ref ref="SYSERRORLOGFILE" />
+</logger>
+<!-- default for all wli components (unless escalated above) -->
+<logger name="com.bea.wli" additivity="false">
+  <level value="info" />
+</logger>
+<logger name="com.bea.jpd" additivity="false">
+  <level value="info" />
+</logger>
+<!-- base for all netui server components -->
+<logger name="com.bea.wlw.netui" additivity="false">
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+</logger>
+<!-- category for struts messages -->
+<logger name="org.apache.struts" additivity="false">
+  <level value="warn" />
+  <appender-ref ref="SYSLOGFILE" />
+</logger>
+
+
+<root>
+  <level value="debug" />
+  <appender-ref ref="SYSLOGFILE" />
+</root>
+</log4j:configuration>

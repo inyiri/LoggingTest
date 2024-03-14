@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG" monitorInterval="30">
+	<Appenders>
+		<Socket name="L2_GRAYLOG_EAI_DEV" protocol="tcp" host="graylog-ingest.mol.sys.corp" port="10035" ignoreExceptions="false">
+			<GelfLayout host="graylog-ingest.mol.sys.corp" compressionType="OFF" includeNullDelimiter="true"/>
+			<SSL>
+				<TrustStore location="/home/eaicdci/NetBeansProjects/LoggingTest/doc/log4j2-truststore.jks" password="changeit"/>
+			</SSL>
+		</Socket>
+		<RollingFile name="L2_ROOT_RFA" fileName="/home/eaicdci/NetBeansProjects/LoggingTest/doc/root.log" filePattern="/home/ferenchorvath/AppZ/glassfish4-log4j/logs-log4j2/root-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="L2_APP_RFA" fileName="/home/eaicdci/NetBeansProjects/LoggingTest/doc/app.log" filePattern="/home/ferenchorvath/AppZ/glassfish4-log4j/logs-log4j2/app-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="test.log4j2migration_log4j2" level="debug" additivity="false">
+			<AppenderRef ref="L2_APP_RFA"/>
+			<AppenderRef ref="L2_GRAYLOG_EAI_DEV"/>
+		</Logger>
+		<Logger name="test.log4j2migration_log4j2comp1notdelegate" level="debug" additivity="false">
+			<AppenderRef ref="L2_APP_RFA"/>
+		</Logger>
+		<Root level="info">
+			<AppenderRef ref="L2_ROOT_RFA"/>
+		</Root>
+	</Loggers>
+</Configuration>
+
